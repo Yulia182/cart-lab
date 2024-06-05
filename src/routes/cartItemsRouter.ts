@@ -16,9 +16,13 @@ cartItemsRouter.get("/cart-items", (req, res) => {
   if (prefix) {
     newCart = cartItems.filter((item) => item.product[0] === prefix);
   }
-  if (pageSize) {
-    newCart = cartItems; // tried reseting
-    newCart.length = pageSize;
+  if (pageSize && pageSize < cartItems.length) {
+    newCart = [];
+    for (let i = 0; i < pageSize; i++) {
+      newCart.push(cartItems[i]);
+    }
+  } else {
+    newCart = cartItems;
   }
   // response
   res.status(200).json(newCart);
